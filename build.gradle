@@ -43,3 +43,6 @@ task buildSpringServer(type: org.openapitools.generator.gradle.plugin.tasks.Gene
 		interfaceOnly: "true"
 	])
 }
+
+// compileJavaを行う前に、buildSpringServerを実行する
+compileJava.dependsOn tasks.buildSpringServer
