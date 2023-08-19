@@ -1,12 +1,12 @@
 package com.example.restapiwithschemadriven.repository.sample;
 
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
-@Repository
-public class SampleRepository {
+@Mapper
+public interface SampleRepository {
 
-  public SampleRecord select() {
-    return new SampleRecord("Hello World");
-  }
+  @Select("SELECT content FROM SAMPLES")
+  public SampleRecord select();
 
 }
