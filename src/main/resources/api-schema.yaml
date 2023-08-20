@@ -35,3 +35,24 @@ paths:
       responses:
         "200":
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskDTO"
+
+# 再利用可能な定義（$refでcomponentsを参照する）
+components:
+  schemas:
+    TaskDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: "タスクの一意のID"
+        title:
+          type: string
+          description: "タスクのタイトル"
+      required:
+        - id
+        - title
