@@ -6,6 +6,11 @@ info:
   version: "0.0.1"
   description: TODO API のドキュメントです
 
+# サーバ情報
+# [詳細](https://www.alpha.co.jp/blog/202208_02#servers%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB%E3%83%89)
+servers:
+  - url: http://localhost:8080
+
 # 分類分け
 tags:
   - name: opts
