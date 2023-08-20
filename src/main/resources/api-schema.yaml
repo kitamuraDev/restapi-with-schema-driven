@@ -1,11 +1,31 @@
 openapi: "3.0.0"
+
+# スキーマの情報
 info:
   title: TODO API Document
   version: "0.0.1"
   description: TODO API のドキュメントです
+
+# 分類分け
+tags:
+  - name: opts
+    description: 運用監視関連のAPI
+  - name: tasks
+    description: タスク関連のAPI
+
+# エンドポイント
 paths:
   /health:
     get:
+      tags:
+        - opts
+      responses:
+        "200":
+          description: OK
+  /tasks/1:
+    get:
+      tags:
+        - tasks
       responses:
         "200":
           description: OK
