@@ -47,6 +47,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/TaskDTO"
+        "404":
+          description: "Not Found"
 
 # 再利用可能な定義（$refでcomponentsを参照する）
 components:
