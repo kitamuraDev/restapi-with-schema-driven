@@ -1,5 +1,7 @@
 package com.example.restapiwithschemadriven.controller.task;
 
+import java.net.URI;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +33,7 @@ public class TaskController implements TasksApi {
     var dto = new TaskDTO(entity.getId(), entity.getTitle());
 
     return ResponseEntity
-      .status(HttpStatus.CREATED)
+      .created(URI.create("/tasks/" + dto.getId()))
       .body(dto);
   }
 
