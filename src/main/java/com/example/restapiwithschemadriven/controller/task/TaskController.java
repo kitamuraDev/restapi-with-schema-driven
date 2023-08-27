@@ -1,5 +1,6 @@
 package com.example.restapiwithschemadriven.controller.task;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +22,15 @@ public class TaskController implements TasksApi {
     var dto = new TaskDTO(entity.getId(), entity.getTitle());
 
     return ResponseEntity.ok(dto);
+  }
+
+  @Override
+  public ResponseEntity<TaskDTO> createTask() {
+    var dto = new TaskDTO(99L, "created!!");
+
+    return ResponseEntity
+      .status(HttpStatus.CREATED)
+      .body(dto);
   }
 
 }
