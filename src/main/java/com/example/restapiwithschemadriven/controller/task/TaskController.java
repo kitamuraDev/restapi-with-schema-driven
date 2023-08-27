@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.restapiwithschemadriven.service.task.TaskService;
 import com.example.todoapi.controller.TasksApi;
 import com.example.todoapi.model.TaskDTO;
+import com.example.todoapi.model.TaskForm;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,8 +26,8 @@ public class TaskController implements TasksApi {
   }
 
   @Override
-  public ResponseEntity<TaskDTO> createTask() {
-    var dto = new TaskDTO(99L, "created!!");
+  public ResponseEntity<TaskDTO> createTask(TaskForm form) {
+    var dto = new TaskDTO(99L, form.getTitle());
 
     return ResponseEntity
       .status(HttpStatus.CREATED)
