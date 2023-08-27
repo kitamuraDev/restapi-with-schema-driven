@@ -39,6 +39,8 @@ paths:
           description: "Created"
   /tasks/{taskId}:
     get:
+      summary: "タスク取得"
+      description: "指定されたIDのタスクを1件取得します"
       tags:
         - tasks
       operationId: showTask # メソッド名を任意に命名できるフィールド
