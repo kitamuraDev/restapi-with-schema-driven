@@ -36,4 +36,9 @@ public class TaskController implements TasksApi {
       .body(dto);
   }
 
+  @Override
+  public ResponseEntity<Void> listTasks() {
+    return ResponseEntity.ok().build();
+  }
+
 }
