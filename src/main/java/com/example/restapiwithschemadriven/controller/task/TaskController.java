@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.restapiwithschemadriven.service.task.TaskEntity;
 import com.example.restapiwithschemadriven.service.task.TaskService;
 import com.example.todoapi.controller.TasksApi;
+import com.example.todoapi.model.PageDTO;
 import com.example.todoapi.model.TaskDTO;
 import com.example.todoapi.model.TaskForm;
 import com.example.todoapi.model.TaskListDTO;
@@ -47,7 +48,10 @@ public class TaskController implements TasksApi {
       .map(this::toTaskDTO)
       .collect(Collectors.toList());
 
+    var pageDTO = new PageDTO(limit, offset, dtoList.size());
+
     var dto = new TaskListDTO();
+    dto.setPage(pageDTO);
     dto.setResults(dtoList);
 
     return ResponseEntity.ok(dto);
