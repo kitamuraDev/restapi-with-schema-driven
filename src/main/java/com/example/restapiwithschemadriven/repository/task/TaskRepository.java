@@ -14,8 +14,8 @@ public interface TaskRepository {
   @Select("SELECT id, title FROM tasks WHERE id = #{taskId}")
   Optional<TaskRecord> select(Long taskId);
 
-  @Select("SELECT id, title FROM tasks")
-  List<TaskRecord> selectList();
+  @Select("SELECT id, title FROM tasks LIMIT #{limit} OFFSET #{offset}")
+  List<TaskRecord> selectList(Integer limit, Long offset);
 
   @Options(useGeneratedKeys = true, keyProperty = "id") // 引数の TaskRecord の id に auto_increment した id をセットする
   @Insert("INSERT INTO tasks (title) VALUES (#{title})")

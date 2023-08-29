@@ -22,8 +22,8 @@ public class TaskService {
       .orElseThrow(() -> new TaskEntityNotFoundException(taskId));
   }
 
-  public List<TaskEntity> find() {
-    return taskRepository.selectList().stream()
+  public List<TaskEntity> find(Integer limit, Long offset) {
+    return taskRepository.selectList(limit, offset).stream()
       .map(record -> new TaskEntity(record.getId(), record.getTitle()))
       .collect(Collectors.toList());
   }
