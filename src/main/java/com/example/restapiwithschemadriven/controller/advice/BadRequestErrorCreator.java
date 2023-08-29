@@ -10,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import com.example.todoapi.model.BadRequestError;
 import com.example.todoapi.model.InvalidParam;
 
+import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ElementKind;
 
@@ -33,25 +34,29 @@ public class BadRequestErrorCreator {
   }
 
   public static BadRequestError form(ConstraintViolationException ex) {
-    var invalidParamList = ex.getConstraintViolations()
-      .stream()
-      .map(violation -> {
-        var parameterOpt = StreamSupport.stream(violation.getPropertyPath().spliterator(), false)
-          .filter(node -> node.getKind().equals(ElementKind.PARAMETER))
-          .findFirst();
-
-        var invalidParam = new InvalidParam();
-        parameterOpt.ifPresent(p -> invalidParam.setName(p.getName()));
-        invalidParam.setReason(violation.getMessage());
-
-        return invalidParam;
-      })
-      .collect(Collectors.toList());
+    var invalidParamList = createInvalidParamList(ex);
 
     var error = new BadRequestError();
     error.setInvalidParams(invalidParamList);
 
     return error;
+  }
+
+  private static List<InvalidParam> createInvalidParamList(ConstraintViolationException ex) {
+    return ex.getConstraintViolations()
+      .stream()
+      .map(BadRequestErrorCreator::createInvalidParam)
+      .collect(Collectors.toList());
+  }
+
+  private static InvalidParam createInvalidParam(ConstraintViolation<?> violation) {
+    var parameterOpt = StreamSupport.stream(violation.getPropertyPath().spliterator(), false)
+      .filter(node -> node.getKind().equals(ElementKind.PARAMETER))
+      .findFirst();
+    var invalidParam = new InvalidParam();
+    parameterOpt.ifPresent(p -> invalidParam.setName(p.getName()));
+    invalidParam.setReason(violation.getMessage());
+    return invalidParam;
   }
 
   /**
