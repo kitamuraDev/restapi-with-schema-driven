@@ -11,7 +11,10 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.example.restapiwithschemadriven.service.task.TaskEntityNotFoundException;
+import com.example.todoapi.model.BadRequestError;
 import com.example.todoapi.model.ResourceNotFoundError;
+
+import jakarta.validation.ConstraintViolationException;
 
 @RestControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
@@ -44,5 +47,11 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     var error = BadRequestErrorCreator.from(ex);
 		return ResponseEntity.badRequest().body(error);
 	}
+
+  @ExceptionHandler(ConstraintViolationException.class)
+  public ResponseEntity<BadRequestError> handleConstraintViolationException(ConstraintViolationException ex) {
+    var error = BadRequestErrorCreator.form(ex);
+    return ResponseEntity.badRequest().body(error);
+  }
 
 }
