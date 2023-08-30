@@ -153,6 +153,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/TaskDTO"
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestError"
 # 再利用可能な定義（$refでcomponentsを参照する）
 components:
   schemas:
