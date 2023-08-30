@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface TaskRepository {
@@ -20,5 +21,8 @@ public interface TaskRepository {
   @Options(useGeneratedKeys = true, keyProperty = "id") // 引数の TaskRecord の id に auto_increment した id をセットする
   @Insert("INSERT INTO tasks (title) VALUES (#{title})")
   void insert(TaskRecord record);
+
+  @Update("UPDATE tasks SET title = #{title} WHERE id = #{id}")
+  void update(TaskRecord taskRecord);
 
 }
