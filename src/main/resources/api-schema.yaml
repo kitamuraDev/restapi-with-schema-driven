@@ -159,6 +159,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BadRequestError"
+        "404":
+          description: "Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundError"
 # 再利用可能な定義（$refでcomponentsを参照する）
 components:
   schemas:

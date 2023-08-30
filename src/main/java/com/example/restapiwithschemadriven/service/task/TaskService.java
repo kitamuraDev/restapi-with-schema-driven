@@ -36,6 +36,10 @@ public class TaskService {
   }
 
   public TaskEntity update(Long taskId, String title) {
+    // id チェック。無ければ例外を投げる
+    taskRepository.select(taskId)
+      .orElseThrow(() -> new TaskEntityNotFoundException(taskId));
+
     taskRepository.update(new TaskRecord(taskId, title));
     return find(taskId);
   }
