@@ -183,6 +183,12 @@ paths:
       responses:
         "204":
           description: "No Content"
+        "404":
+          description: "Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundError"
 # 再利用可能な定義（$refでcomponentsを参照する）
 components:
   schemas:
