@@ -44,4 +44,8 @@ public class TaskService {
     return find(taskId);
   }
 
+  public void delete(Long taskId) {
+    taskRepository.delete(taskId);
+  }
+
 }

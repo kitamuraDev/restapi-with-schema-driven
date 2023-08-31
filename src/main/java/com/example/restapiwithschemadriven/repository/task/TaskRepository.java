@@ -3,6 +3,7 @@ package com.example.restapiwithschemadriven.repository.task;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
@@ -24,5 +25,8 @@ public interface TaskRepository {
 
   @Update("UPDATE tasks SET title = #{title} WHERE id = #{id}")
   void update(TaskRecord taskRecord);
+
+  @Delete("DELETE FROM tasks WHERE id = #{taskId}")
+  void delete(Long taskId);
 
 }
