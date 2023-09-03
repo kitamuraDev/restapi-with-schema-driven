@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '3.1.2'
 	id 'io.spring.dependency-management' version '1.1.2'
 	id "org.openapi.generator" version "6.6.0"
+	id "com.diffplug.spotless" version "6.21.0"
 }
 
 group = 'com.example'
@@ -10,6 +11,15 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	sourceCompatibility = '17'
+}
+
+spotless {
+	java {
+		// importOrder()
+		removeUnusedImports()
+		// googleJavaFormat()
+		// formatAnnotations()
+	}
 }
 
 configurations {
@@ -39,6 +49,9 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+// Springコードの生成先ディレクトリ定数
+ext.GENERATED_SPRING_CODE_DIR="$buildDir/spring"
+
 // APIドキュメント
 task buildApiDoc(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
 	generatorName.set("html2")
@@ -50,7 +63,8 @@ task buildApiDoc(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTa
 task buildSpringServer(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
 	generatorName.set("spring")
 	inputSpec.set("$rootDir/src/main/resources/api-schema.yaml")
-	outputDir.set("$buildDir/spring")
+	outputDir.set("$GENERATED_SPRING_CODE_DIR")
+	outputs.dir("$GENERATED_SPRING_CODE_DIR")
 	apiPackage.set("com.example.todoapi.controller")
 	modelPackage.set("com.example.todoapi.model")
 	configOptions.set([
@@ -58,6 +72,15 @@ task buildSpringServer(type: org.openapitools.generator.gradle.plugin.tasks.Gene
 		useSpringBoot3: "true"
 	])
 }
+
+// 既存のタスク（spotlessJava）に対して設定を追加する
+tasks.named("spotlessJava").configure {
+	dependsOn ":buildSpringServer"
+	inputs.dir("$GENERATED_SPRING_CODE_DIR")
+}
+
+// buildSpringServerを実行後に、spotlessJavaApplyを実行する
+tasks.buildSpringServer.finalizedBy tasks.spotlessJavaApply
 
 // compileJavaを行う前に、buildSpringServerを実行する
 compileJava.dependsOn tasks.buildSpringServer
